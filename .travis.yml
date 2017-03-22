@@ -1,0 +1,14 @@
+sudo: required
+services:
+  - docker
+install:
+  - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos singularity create -s 1000 image.img
+  - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos singularity bootstrap      image.img singularity.def
+script:
+  - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos singularity test           image.img
+after_script:
+  - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos lz4 image.img
+  - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos sha512sum image.* > sha512sums
+  - rm -f image.img
+addons:
+  artifacts: true
