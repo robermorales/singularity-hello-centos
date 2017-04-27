@@ -7,7 +7,7 @@ install:
 script:
   - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos singularity test           image.img
 after_script:
-  - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos lz4 image.img
+  - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos gzip image.img
   - docker run --privileged -v `pwd`:/pwd/ -it robermorales/singularity-centos sha512sum image.* > sha512sums
   - rm -f image.img
 addons:
